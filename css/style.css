@@ -1,0 +1,17 @@
+#mymodal{
+    width: 30%;
+    position: absolute;
+    left: 33%;
+    top: 20%;
+    z-index: 100000;
+    background: white;
+    padding: 20px;
+}
+
+a{
+    color: black;
+}
+
+a span{
+    font-size: 15px;
+}

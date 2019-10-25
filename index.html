@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test Anastasiia Prygun</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/table.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div>
+        <div class="pull-left">
+            Task list / <span id="items-count">0</span> items
+        </div>
+        <div class="pull-right">
+            <a href="javascript: showModal()">
+                Create new <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody id="tasks">
+        </tbody>
+    </table>
+    <script>init()</script>
+</div>
+<div id="mymodal" style="display: none">
+    <div class="row">
+        <div class="pull-left">
+            New Task
+        </div>
+        <div class="pull-right">
+            <a href="javascript: hideModal()"><span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <form onsubmit="add(this);return false;">
+            <div id ="error"  style="display: none" class="alert alert-danger" role="alert">
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-control" id="name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="description">Another label</label>
+                <textarea id="description"  class="form-control" id="description" placeholder="Description"></textarea>
+            </div>
+            <button type="submit" class="btn">Save</button>
+            <button class="btn" onclick="javascript: hideModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
