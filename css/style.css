@@ -1,17 +1,73 @@
-#mymodal{
+#task-list__modal{
     width: 30%;
     position: absolute;
     left: 33%;
-    top: 20%;
+    top: 25%;
     z-index: 100000;
     background: white;
     padding: 20px;
+    border: 2px solid #ddd;    
+}
+
+.task-list{
+   padding: 5%;
+}
+
+.glyphicon-plus-sign{
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+#task-list__modal__name-input{
+    border-radius: 0px;
+}
+
+#task-list__modal__description-input{
+    border-radius: 0px;
+}
+
+.task-list__modal__content{
+    background-color: #fefefe;
 }
 
 a{
     color: black;
 }
 
+a:hover{
+    color: black;
+    text-decoration: none;
+}
+
+a:active{
+    text-decoration: none;
+}
+
 a span{
     font-size: 15px;
+}
+
+.table>thead>tr>th {
+    border-left: 3px solid white;
+    border-bottom: 1px solid #ddd;
+}
+
+.table>tbody>tr>td {
+    border-top: none;
+    border-left: 3px solid white;
+    border-bottom: 1px solid #ddd;
+}
+
+.pull-left{
+    padding-left: 5%;
+    font-weight:600;
+}
+
+.pull-right{
+    padding-right: 5%;
+    font-weight:500;
+}
+
+.table{
+    margin-top: 30px;
 }

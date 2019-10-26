@@ -1,4 +1,4 @@
-﻿var items = []
+﻿items = []
 
 function init(){
     loadData();
@@ -6,21 +6,29 @@ function init(){
 }
 
 function addRow(table, note, index){
-    var newRow = document.createElement('tr');
+    const newRow = document.createElement("tr");
 
-    var idTd = document.createElement('td');
+    const idTd = document.createElement("td");
     idTd.innerText = (index+1) + ".";
     newRow.appendChild(idTd);
 
-    var nameTd = document.createElement('td');
+    const envelopeTd = document.createElement("td");
+    envelopeTd.innerHTML = "<span class='glyphicon glyphicon-envelope'></span>";
+    newRow.appendChild(envelopeTd);
+
+    const nameTd = document.createElement("td");
     nameTd.innerText = note["name"];
     newRow.appendChild(nameTd);
 
-    var descriptionTd = document.createElement('td');
+    const descriptionTd = document.createElement("td");
     descriptionTd.innerText = note["description"];
     newRow.appendChild(descriptionTd);
 
-    var removeTd = document.createElement('td');
+    const editTd = document.createElement('td');
+    editTd.innerHTML = "<a href='javascript: editNote("+index+")'><span class='glyphicon glyphicon-edit'></span></a>"
+    newRow.appendChild(editTd);
+
+    const removeTd = document.createElement('td');
     removeTd.innerHTML = "<a href='javascript: remove("+index+")'><span class='glyphicon glyphicon-remove'></span></a>"
     newRow.appendChild(removeTd);
 
@@ -28,53 +36,104 @@ function addRow(table, note, index){
 }
 
 function render(){
-  items_count = document.getElementById('items-count')
+  const items_count = document.getElementById('task-list__items-count')
   items_count.innerText = items.length.toString();
-  table = document.getElementById('tasks')
+
+  const table = document.getElementById('tasks')
   table.innerHTML = "";
-  for(var i=0; i < items.length; i++){
+  for(let i=0; i < items.length; i++){
       addRow(table, items[i], i);
   }
 }
 
 function showModal(){
-  modal = document.getElementById('mymodal')
-  modal.style.display = "block"
+  const modal = document.getElementById('task-list__modal')
+  modal.classList.remove("hidden");
 }
 
 function hideModal(){
-  modal = document.getElementById('mymodal')
-  modal.style.display = "none"
+  const modal = document.getElementById('task-list__modal')
+  modal.classList.add("hidden");
 }
 
 function isValid(note){
-    return note["name"].length > 0 && note["description"].length > 0
+  return note["name"].length > 0 && note["description"].length > 0
 }
 
-function add(form){
-  const error = document.getElementById('error')
-  error.innerText = ""
-  error.style.display="none"
-  const name = document.getElementById('name')
-  const description = document.getElementById('description')
-  item = {name: name.value, description: description.value}
+function add(){
+  const nameField = document.getElementById('task-list__modal__name-input')
+  const descriptionField = document.getElementById('task-list__modal__description-input')
+  const indexField = document.getElementById('task-list__modal__index')
+
+  const item = {name: nameField.value, description: descriptionField.value}
+
   if (isValid(item) ){
-    items.push(item);
-    description.value = name.value = ""
-    hideModal();
+    if (indexField.value === ""){
+      items.push(item);
+    }
+    else {
+      items[parseInt(indexField.value)] = item
+    }
+
     saveData();
     render();
+    hideModal();
   }
   else{
+    const error = document.getElementById('task-list__modal__error-message')
     error.innerText = "Please fill name and description properly"
-    error.style.display="block"
+    error.classList.remove("hidden");
   }
 }
 
+function hideError(){
+  const errorMsg = document.getElementById('task-list__modal__error-message')
+
+  errorMsg.innerText = ""
+  errorMsg.classList.add("hidden");
+}
+
+function renderFormTitle(title){
+  const formTitle = document.getElementById('task-list__modal__form-title')
+  formTitle.innerText = title
+}
+
+function editNote(index){
+  if(canEdit()){
+    const nameField = document.getElementById('task-list__modal__name-input')
+    const descriptionField = document.getElementById('task-list__modal__description-input')
+    const indexField = document.getElementById('task-list__modal__index')
+
+    hideError();
+
+    if (index == null){
+      indexField.value = "";
+      nameField.value = "";
+      descriptionField.value = "";
+      renderFormTitle("New Note");
+    }
+    else {
+      renderFormTitle("Edit Note #" + (index+1));
+
+      const note = items[index]
+      indexField.value = index;
+      nameField.value = note["name"];
+      descriptionField.value = note["description"];
+    }
+    showModal()
+  }
+}
+
+function canEdit(){
+  const modal = document.getElementById('task-list__modal')
+  return modal.classList.contains("hidden")
+}
 function remove(index){
-  items.splice(index, 1)
-  saveData()
-  render()
+  if(canEdit()){
+    items.splice(index, 1)
+    saveData()
+    render()
+  }
 }
 
 function loadData() {
